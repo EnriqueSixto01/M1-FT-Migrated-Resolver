@@ -7,19 +7,22 @@ function crearClaseLibro() {
       // El constructor de la clase Libro recibe titulo (string), autor (string), traducciones (array de objetos)
       // Inicializar las propiedades del libro con los valores recibidos como argumento
       // Tu código aca:
+      this.titulo = titulo;
+      this.autor = autor;
+      this.traducciones = traducciones;
     
     }
 
     getTitulo() {
       // este método debe retornar el titulo del libro.
       // Tu código aca:
-      
+      return this.titulo;
     }
 
     getAutor() {
       // El método debe retornar nombre y apellido del autor
       // Tu código aca:
-     
+      return this.autor;
     }
 
     addTraduccion(idioma, editorial) {
@@ -29,7 +32,7 @@ function crearClaseLibro() {
       // Tu código aca:
            // "frances", "santillana"
            // { idioma: "frances", editorial: "santillana"}
-      
+      this.traducciones.push({idioma,editorial})
     }
 
     getTraducciones() {
@@ -38,7 +41,12 @@ function crearClaseLibro() {
       // Suponiendo que el libro tiene estas traducciones: [{idioma: 'inglés', editorial: 'Scholastic'}, {idioma: 'castellano', editorial: 'Santillana'}]
       // libro.getTraducciones() debería devolver ['inglés', 'castellano']
       // Tu código aca:
-     
+      let aux =[]
+    for(let i in this.traducciones){
+
+      aux.push(this.traducciones[i].idioma)
+    }
+    return aux
  }
 
     getAlcance() {
@@ -48,7 +56,12 @@ function crearClaseLibro() {
       // Suponiendo que el libro tiene estas traducciones: [{idioma: 'inglés', editorial: 'Scholastic'}, {idioma: 'castellano', editorial: 'Santillana'}]
       // libro.getAlcance() deberia devolver 2
       // Tu código aca:
-      
+      let aux =[]
+      for(let i in this.traducciones){
+        if(!aux.includes(this.traducciones[i].idioma))
+        aux.push(this.traducciones[i].idioma)
+      }
+      return aux.length;
     }
   }
   return Libro;
@@ -60,7 +73,11 @@ const printStaff = function (objeto) {
   // de esta forma "The headmaster is Albus Percival Wulfric Brian Dumbledore" 
   // el arreglo debe mantener el orden que posee el staff del objeto.
   // Tu código aca:
- 
+  let staff =[];
+  for(let key in objeto.staff){
+    staff.push("The " + key + " is " + objeto.staff[key].name)
+  }
+  return staff;
 };
 
 
@@ -90,10 +107,16 @@ var obj = {
 // EXTRAS ---------------------------------------------------------------------------------------------------------------------
 // En los ejercicios extras no contamos con los tests, por lo que no podemos comprobar que funcione correctamente
 // a no ser que lo hagamos manualmente con el correcto uso de la consola.
-var countProps = function(obj) {
-  // Tu código aca:
-  
- }
+var countProps = function (obj) {
+  var count = 0;
+  for (var property in obj) {
+    count++;
+    if (typeof obj[property] === "object" && !Array.isArray(obj[property])) {
+      count = count + countProps(obj[property]);
+    }
+  }
+  return count;
+};
 
  console.log(countProps(obj))
 
@@ -111,9 +134,14 @@ var countProps = function(obj) {
 // parImpar(20)
 // "Par"
 
-let parImpar = () => {
+let parImpar = (value) => {
+  if(value === 1) return "Es Impar"
+  else if(value === 0) return "Es Par"
+  else 
+    return parImpar(value - 2)
 }
 
+console.log(parImpar(15))
 
 module.exports = { crearClaseLibro, printStaff };
 
