@@ -7,7 +7,6 @@ function timeConversion(time) {
   // timeConversion("12:60") // false
   // timeConversion("09:00 PM") // "21:00"
   // tu codigo acá
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,8 +19,13 @@ Crear una funcion saludar que pueda fijar cada vez que la guardo en una variable
 Recibira en la funcion interna el nombre a quien tiene que saludar y retornara el saludo correspondiente seguido por el nombre al ser invocada
 */
 function saludar(saludo) {
-  
+  return function (nombre) {
+    return saludo + " " + nombre;
+  };
 }
+
+var saludo = saludar("Hola!");
+console.log(saludo("Enrique"));
 
 /*---------------------------------------------------*/
 
@@ -31,9 +35,21 @@ Adicionalmente agregarle una funcion que cuando pasen 8 seg incremente el contad
 
 */
 function contador() {
-  
+  let count = 0;
+  setTimeout(function () {
+    count = 100;
+  }, 8000);
+  return function () {
+    
+    count ++
+    return count;
+  };
 }
 
+var cont = contador();
+console.log(cont());
+console.log(cont());
+// console.log(cont());
 
 /*---------------------------------------------------*/
 /*
@@ -47,27 +63,54 @@ parametro a la funcion global.
  Pepe(); // "El proximo año va a tener 22"
 */
 function creciendo(n) {
- 
+  //let age = n;
+  return function () {
+    n++;
+    return "El proximo año va a tener " + n;
+  };
 }
+var Pepe = creciendo(20);
+console.log(Pepe());
+console.log(Pepe());
+var Luis = creciendo(25);
+console.log(Luis());
 
 /*---------------------------------------------------*/
 // Retorna una funcion que cuando sea invocada con un valor mayor a 50 retorne un valor decreciente,
 // pero si el valor es menor o igual que 50 retorne un valor creciente
 // el primer valor debe ser el que se le pase por parametro a la funcion global.
-// ejemplo: const newCounter = arribaArbajo(49);
+// ejemplo: const newCounter = arribaAbajo(49);
 // newCounter(); // 50
 // newCounter(); // 51
 // newCounter(); // 52
 // newCounter(); // 53
-// ejemplo: const newCounter = arribaArbajo(52)
+// ejemplo: const newCounter = arribaAbajo(52)
 // newCounter(); // 51
 // newCounter(); // 50
 // newCounter(); // 49
-
-function arribaAbajo(n) {
-  
+function arribaAbajo(n){
+let a = n;                //paso por valor a = 49 y n = 49
+return function () {
+  if (n <= 50) { 
+    a++;         
+    return a;
+  } else {
+    a--;
+    return a;
+  }
+}
 }
 
+var newCounter = arribaAbajo(52);
+console.log(newCounter()); // 51
+console.log(newCounter()); // 50
+console.log(newCounter()); // 49
+console.log(newCounter()); // 48
+var newCounter2 = arribaAbajo(49); //paso por valor a = 49 y n = 49
+console.log(newCounter2()); // 50   49 <= 50 --> a++ --> a=50 | n=49 
+console.log(newCounter2()); // 51   49 <= 50 --> a++ --> a=51 | n=49
+console.log(newCounter2()); // 52   49 <= 50 --> a++ --> a=52 | n=49
+console.log(newCounter2()); // 53
 /*---------------------------------------------------*/
 
 // Implementar la funcion closureSum que permita generar nuevas funciones que representen
@@ -80,8 +123,15 @@ function arribaAbajo(n) {
 // - multBySix(4) --> 24
 
 var closureMult = function (multiplier) {
- 
+  return function (number) {
+    return number * multiplier;
+  };
 };
+var multByFour = closureMult(4);
+console.log(multByFour(2));
+console.log(multByFour(5));
+var multBySix = closureMult(6);
+console.log(multBySix(4));
 
 /*---------------------------------------------------*/
 
@@ -97,7 +147,6 @@ function cacheFunction(cb) {
   // si la invocas de nuevo con 5, deberia retornar 25 (guardado previament en el cache)
   // Tips, usá un objeto donde cada propiedad sea un argumento, y el valor el resultado.
   // usá hasOwnProperty!
- 
 }
 
 module.exports = {
