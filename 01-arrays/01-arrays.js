@@ -66,7 +66,19 @@ function mismoValorMismosElementos(numero, divisor) {
   // vemos que todos los elementos deben tener el mismo valor
   // Siendo el número divisible entre el divisor, de no ser así, debe devolver false
   // es decir Si el resultado de la division no es un entero, deben devolver false
-}
+  if (numero % divisor !== 0) return false
+
+      let total = numero / divisor
+      let i = 0
+      let array = []
+
+      while (divisor > i) {
+          array.push(total)
+          i++
+      }
+      return array
+  };
+
 
 function elementoMenorYMayor(array) {
   // El Array recibido por props es un array que contienen numeros
