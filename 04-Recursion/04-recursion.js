@@ -2,11 +2,17 @@
 // ej:
 // producto([1, 2, 5]) devuelve 10
 
+//    
+//producto([5]) =      5                                          
+//producto([2,5]) =   2 * producto([5])                 producto([2,5]) = 2 * 5 = 10
+//producto([1,2,5]) = 1 * producto([2,5])               producto([1,2,5]) = 1 * 10 = 10
 const producto = function (array) {
   //escribe aqui tu codigo [7, 9, 3]
+  if(array.length === 1) return array[0]
+  return array.shift() * producto(array)
 
 };
-
+console.log(producto([5,5]))
 // Recursividad en javascript con objetos
 // Dado un objeto con objetos anidados utilizar la recursión para crear una función
 // que devuelva true o false dependiendo si el objeto tiene o no el valor pasado por parametro
@@ -38,9 +44,17 @@ let obj = {
   prop1: 5,
   prop2: 6,
 };
-const isThere = function (obj, value) {
-  // tu código aca
-  
+
+  const isThere = function (obj, value) {
+    // tu código aca
+    for(let i in obj){
+      if(obj[i] === value) return true
+      else if(typeof obj[i] === 'object')  {
+        var find = isThere(obj[i], value)
+        if(find) return find
+        }
+    } 
+    return false 
 };
 console.log(isThere(obj, 6));
 
@@ -58,10 +72,14 @@ console.log(isThere(obj, 6));
 // parImpar(20)
 // "Par"
 
-let parImpar = (num) => {
- 
-};
-console.log(parImpar(7));
+let parImpar = (value) => {
+  if(value === 1) return "Es Impar"
+  else if(value === 0) return "Es Par"
+  else 
+    return parImpar(value - 2)
+}
+
+console.log(parImpar(15))
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,8 +94,14 @@ console.log(parImpar(7));
 let nuevoArray = [];
 
 function restar(n) {
+  nuevoArray.push(n)
+  if(n === 1) return nuevoArray;
+  return restar(n-1)
+  // return n + ' ' + restar(n-1) 
   
 }
+console.log(restar(10))
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,8 +112,11 @@ function restar(n) {
 // --> 'anusus aloh'
 
 function reverse(str) {
-  
+  if(str.length < 2) return str;
+  return reverse(str.slice(1)) + str[0]
 }
+
+console.log(reverse('hola'))
 
 // "hola"
 //  0123
@@ -113,8 +140,22 @@ function reverse(str) {
 //    const array = [1, [2, [3,4]], [5,6], 7];
 //    countArray(array); --> Debería devolver 28 (1 + 2 + 3 + 4 + 5 + 6 + 7)
 
-var countArray = function (array) {
+
+  var countArray = function (array) {
+    let sum = 0;
+    for (let i = 0; i < array.length; i++) {
+      if (Array.isArray(array[i])) {
+        sum = sum + countArray(array[i]);
+      } 
+      else {
+        sum = sum + array[i];
+      }
+    }
+    return sum;
   
 };
+
+//console.log(countArray([1, [2, [3,4]], [5,[6,[5]]],7]))
+console.log(countArray([1, 2]))
 
 module.exports = { producto, isThere };
